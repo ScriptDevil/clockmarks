@@ -7,6 +7,12 @@ from django.http import HttpResponse, HttpResponseBadRequest
 times = {}
 defaultTime = "unknown"; # Got to be the answer, right?
 exception_list = [ 'https?://www\.facebook\.com.*', 'https?://www\.google\.com.*', 'https?://.*google.*' ]
+readability_key = '9d801f55224d175fb6256ffac9b95f6d34f95e9a'
+
+def get_word_count( url ):
+    dat = urllib2.urlopen( 'https://www.readability.com/api/content/v1/parser?url=%s&token=%s'%( urllib2.quote(url), readability_key ) )
+    d=json.loads( dat.read() )
+    return d[u'word_count']
 
 def get_time( request, url ):
     print 'Dafuq!!!!!', url
@@ -16,7 +22,7 @@ def get_time( request, url ):
             info = { 'url': url, 'duration':  0 }
             return HttpResponse(json.dumps(info), content_type = 'application/json')
     
-    youtube = re.match( 'https?://www.youtube.com/watch\?v=(.*)', url )
+    youtube = re.match( '.*youtube\.com/watch\?v=(.*)', url )
     if youtube:
         print 'Youtube!!!'
         if times.has_key( url ):
@@ -33,7 +39,7 @@ def get_time( request, url ):
         # TODO: Return duration.
         return HttpResponse(json.dumps(info), content_type = 'application/json')
 
-    vimeo = re.match( '.*vimeo.com/(.*)', url ) #39765217
+    vimeo = re.match( '.*vimeo\.com/(.*)', url ) #39765217
     if vimeo:
         print 'Vimeo!!!'
         if times.has_key( url ):
@@ -54,7 +60,9 @@ def get_time( request, url ):
         info = { 'url': url, 'duration': times[url][0] }
         return HttpResponse(json.dumps(info), content_type = 'application/json')
     else:
-        info = { 'url': url, 'duration': defaultTime};
+        wc = get_word_count( url )
+        #info = { 'url': url, 'duration': defaultTime};
+        info = { 'url': url, 'duration': wc*60/200 };
         return HttpResponse(json.dumps(info), content_type = 'application/json')
 
 def update_time( request, url, time ):

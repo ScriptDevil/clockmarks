@@ -4,5 +4,6 @@ function redirect() {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById("popupper").addEventListener('click', redirect);
+    //document.getElementById("popupper").addEventListener('click', redirect);
+    redirect();
 });

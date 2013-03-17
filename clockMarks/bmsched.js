@@ -8,7 +8,7 @@ window.onload = init;
 function init() {
     getList();
     setupLinks();
-    hideList(["analytics", "cleanup", "filter"]);
+    hideList(["analytics", "filter"]);
     showList(["list"]);
 }
 
@@ -25,7 +25,25 @@ function showList(ids) {
     });
 }
 
+function setupFilter(){
+    var catOpts = document.getElementById("categSel");
+    getAnalytics();
+
+    catOpts.innerHTML="";
+    var tempOpt = document.createElement("option");
+    tempOpt.setAttribute("value", "any");
+    tempOpt.innerHTML = "any";
+    catOpts.appendChild(tempOpt);
+    for(var key in catList) {
+	var tempOpt = document.createElement("option");
+	tempOpt.setAttribute("value", key);
+	tempOpt.innerHTML = key;
+	catOpts.appendChild(tempOpt);
+    }
+}
+
 function getFilter() {
+    var catOpts = document.getElementById("categSel");
     var filteredText = document.getElementById("filterButton");
     var filteredTable = document.getElementById("filtered_table");
     filteredTable.innerHTML=" <tr><th width=\"15%\">Category</th><th width=\"75%\">Bookmark</th><th width=\"8%\" class=\"durationelem\">Duration</th></tr>";
@@ -37,6 +55,7 @@ function getFilter() {
     var minLength = Math.floor(minTextLink.value*60.0);
     var maxLength = Math.floor(maxTextLink.value*60.0);
 
+    selOption = catOpts.options[catOpts.selectedIndex].value;
     if((minLength == undefined) || (maxLength == undefined)){
 	contentSpan.innerHTML = "<span class=\"error\">Check lengths"
     }
@@ -49,7 +68,9 @@ function getFilter() {
 		var title = o.title;
 		var duration = o.duration;
 		if((duration >= minLength) &&
-		   (duration <= maxLength)) {
+		   (duration <= maxLength) &&
+		   (selOption == "any" || cat == selOption))
+		{
 		    var newRowElem = document.createElement("tr");
 		    var newCatCell = document.createElement("td");
 		    var newMarkCell = document.createElement("td");
@@ -72,7 +93,6 @@ function setupLinks() {
     var allLink = document.getElementById("show_all");
     var listLink = document.getElementById("list_link");
     var analyticsLink = document.getElementById("analytics_link");
-    var cleanupLink = document.getElementById("cleanup_link");
     var filterLink = document.getElementById("filter_link");
     var filterButtonLink = document.getElementById("filterButton");
     filterButtonLink.addEventListener("click", function() {
@@ -82,21 +102,18 @@ function setupLinks() {
 	showAll();
     });
     listLink.addEventListener("click", function() {
-	hideList(["analytics", "cleanup", "filter"]);
+	hideList(["analytics", "filter"]);
 	showList(["list"]);
     });
     analyticsLink.addEventListener("click", function() {
-	hideList(["list", "cleanup", "filter"]);
+	hideList(["list", "filter"]);
 	showList(["analytics"]);
 	getAnalytics();
     });
-    cleanupLink.addEventListener("click", function() {
-	hideList(["list", "analytics", "filter"]);
-	showList(["cleanup"]);
-    });
     filterLink.addEventListener("click", function() {
-	hideList(["list", "cleanup", "analytics"]);
+	hideList(["list", "analytics"]);
 	showList(["filter"]);
+	setupFilter();
     });
 }
 
@@ -166,10 +183,8 @@ function getAnalytics() {
 }
 function showAll() {
     getAnalytics();
-    showList(["list", "analytics", "cleanup", "filter"]);
-}
-function getCleanup() {
-
+    setupFilter();
+    showList(["list", "analytics", "filter"]);
 }
 
 function getDuration(elem, tickElem, url) {

@@ -16,7 +16,7 @@
   <body>
     <div id="banner">
       <div id="menu">
-	<a id="show_all">all</a> | <a id="list_link"> list </a> | <a id="analytics_link">analytics</a> | <a id="cleanup_link">cleanup</a> | <a id="filter_link">filter</a> 
+	<a id="show_all">all</a> | <a id="list_link"> list </a> | <a id="analytics_link">analytics</a> | <a id="filter_link">filter</a> 
       </div>
       <div id="logoBanner">
 	<div id="logo"><span class="darkSilver">clock</span><span class="lightSilver">marks</span></div>
@@ -34,18 +34,24 @@
 	    </tr>
 	  </table>
 	</center>
-	<h2>&nbsp;</h2>
       </div>
       <div id="analytics">
 	<center>
 	<h2> Analytics </h2>
+	Time left of bookmarks in your categories
 	</center>
-	<span id="holder"></span>
+	<span id="holder" class="setfont"></span>
       </div>
       <div id="filter">
-	<span>
+	<center>
+	  <h2> Filter </h2>
+	</center>
+	<span class="setfont">
+	  <select id="categSel">
+	  </select>
 	Min Length(minutes): <input type="text" id="minLength" value="0"/>
-	Max Length(minutes): <input type="text" id="maxLength" value="0"/>
+	Max Length(minutes): <input type="text" id="maxLength" value="1000"/>
+	<br/>
 	<button type="button" id="filterButton">Filter</button>
 	</span>
 	<br/>
@@ -56,8 +62,13 @@
 	  </table>
 	</span>
       </div>
-      <div id="cleanup">
-	Cleanup goes here
+      <div>
+	<center>
+	  <hr/>
+	  Copyleft 2013; 
+	  <a href="http://ScriptDevil.in">Ashok `ScriptDevil` Gautham</a> and
+	  <a href="http://www.cse.iitm.ac.in/~vikrams">Vikram `VikiMama` Rao</a><br/>
+	</center>
       </div>
     </div>
   </body>
