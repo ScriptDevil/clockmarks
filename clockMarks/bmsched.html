@@ -4,24 +4,60 @@
   <head>
     <title> Full page extension </title>
     <link href="main.css" rel="stylesheet" type="text/css" />
-    <!-- <script src="jquery-1.9.0.js"></script> -->
+    <script src="jquery-1.9.0.js"></script>
+
+    <script src="raphael.js"></script>
+    <script src="g.raphael.js"></script>
+    <script src="g.pie.js"></script>
     <script src="bmsched.js"> </script>
+    <!-- <script src="analyzeweb.js"> </script> -->
     
   </head>
   <body>
-    <div id="realbody">
-      <div id="banner">
+    <div id="banner">
+      <div id="menu">
+	<a id="show_all">all</a> | <a id="list_link"> list </a> | <a id="analytics_link">analytics</a> | <a id="cleanup_link">cleanup</a> | <a id="filter_link">filter</a> 
+      </div>
+      <div id="logoBanner">
 	<div id="logo"><span class="darkSilver">clock</span><span class="lightSilver">marks</span></div>
 	<br/>
 	<span id="caption">mark.schedule.read</span>
       </div>
-
-      <div id="content">
-	<table id="bmarks_table">
-	  <tr>
-	    <th>Category</th><th>Bookmark</th><th>Duration</th>
-	  </tr>
-	</table>
+    </div>
+    <div id="realbody">
+      <div id="list">
+	<center>
+	<h2> Bookmarks List </h2>
+	  <table id="bmarks_table">
+	    <tr>
+	      <th width="15%">Category</th><th width="65%">Bookmark</th><th width="8%" class="durationelem">Duration</th><th width="5%" class="checkelem"> </th>
+	    </tr>
+	  </table>
+	</center>
+	<h2>&nbsp;</h2>
+      </div>
+      <div id="analytics">
+	<center>
+	<h2> Analytics </h2>
+	</center>
+	<span id="holder"></span>
+      </div>
+      <div id="filter">
+	<span>
+	Min Length(minutes): <input type="text" id="minLength" value="0"/>
+	Max Length(minutes): <input type="text" id="maxLength" value="0"/>
+	<button type="button" id="filterButton">Filter</button>
+	</span>
+	<br/>
+	<span id="filtererrors"></span>
+	<br/>
+	<span id="filteredContent">
+	  <table id="filtered_table">
+	  </table>
+	</span>
+      </div>
+      <div id="cleanup">
+	Cleanup goes here
       </div>
     </div>
   </body>

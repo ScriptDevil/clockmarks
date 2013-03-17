@@ -11,17 +11,35 @@
 body {
     font-family: 'Merriweather Sans', sans-serif;
     /* color: rgba(232,221,203,255); */
-    background: #ededed;
     /* border-left: 1px solid #cccccc; */
     /* border-right: 1px solid #cccccc; */
     background: #ececec;
-    width: 750px;
     margin: auto;
+}
+#banner {
+    width: 700px;
+    margin: 0  auto;
+    background:white;
+    padding: 10px;
+    -webkit-border-radius: 5px;
+}
+#realbody {
+    width: 750px;
+    margin: 0 auto;
+    background: white;
+    -webkit-border-radius: 5px;
+}
+
+#menu {
+    padding-top: 15px;
+    text-align: center;
+    float: right;
+    font-weight: bold;
 }
 #banner {
     margin-bottom: 20px;
     font-family: 'Merriweather Sans', sans-serif;
-    text-align:right;
+    text-align:left;
 }
 #logo {
     font: 30px serif;
@@ -29,19 +47,21 @@ body {
     margin-bottom: 0px;
     padding-bottom: 0px;
     text-shadow: 0px 1px 1px #4d4d4d;
-    color: #222;
+    color: #222299;
 }
 
 .darkSilver {
-    color: #777;
+    color: #777799;
 }
 .lightSilver {
-    color: #222;
+    color: #222299;
 }
 #caption {
     font-size: small;
     vertical-align: top;
-    padding-right:7px;
+    color: #555599;
+    font-weight: bold;
+    /* padding-right:7px; */
 }
 
 
@@ -50,31 +70,51 @@ body {
     padding-top: 0px;
     text-align: right;
 }
-#content a {
+a {
     text-decoration: none;
     color: #1e4799;
+}
+.error {
+color: #D8000C;
+background-color: #FFBABA;
+}
+h2 {
+    font: 30px "Merriweather Sans";
 }
 
 table {
     font: 15px "Merriweather Sans";
+    margin: 5%;
+    margin-bottom: 10px;
 }
 
 table,th,td {
     border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+.durationelem {
+    text-align:right;
+}
+
+.checkelem {
+    text-align: center;
+}
+
+tr:nth-child(odd) {
+    background-color: #f7f7f7;
 }
 
 th {
-    font-weight: normal;
-    -webkit-border-radius: 5px;
-    background: #a3c007;
-    color: #222222;
+    font-weight: bold;
+    text-align: left;
 }
 
-.path {
-    font-size: small;
-    padding-right: 10px;
-}
+/* .path { */
+/*     font-size: small; */
+/*     padding-right: 10px; */
+/* } */
 
-.bmark {
-    padding-left: 10px;
-}
+/* .bmark { */
+/*     padding-left: 10px; */
+/* } */

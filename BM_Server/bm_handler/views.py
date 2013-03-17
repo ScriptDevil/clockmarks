@@ -6,34 +6,50 @@ from django.http import HttpResponse, HttpResponseBadRequest
 
 times = {}
 defaultTime = "unknown"; # Got to be the answer, right?
+exception_list = [ 'https?://www\.facebook\.com.*', 'https?://www\.google\.com.*', 'https?://.*google.*' ]
+
 def get_time( request, url ):
     print 'Dafuq!!!!!', url
-    youtube = re.match( 'http://www.youtube.com/watch\?v=(.*)', url )
+
+    for pat in exception_list:
+        if re.match( pat, url ):
+            info = { 'url': url, 'duration':  0 }
+            return HttpResponse(json.dumps(info), content_type = 'application/json')
+    
+    youtube = re.match( 'https?://www.youtube.com/watch\?v=(.*)', url )
     if youtube:
         print 'Youtube!!!'
-        vid_id = youtube.groups()[0]
-        vid_info_url = 'http://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=jsonc'%vid_id
-        dat = urllib2.urlopen( vid_info_url ).read()
-        duration = json.loads(dat)[u'data'][u'duration']
+        if times.has_key( url ):
+            info = { 'url': url, 'duration': times[url][0] }
+        else:
+            vid_id = youtube.groups()[0]
+            vid_info_url = 'http://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=jsonc'%vid_id
+            dat = urllib2.urlopen( vid_info_url ).read()
+            duration = json.loads(dat)[u'data'][u'duration']
 
-        info = { 'url': url, 'duration': duration }
+            info = { 'url': url, 'duration': duration }
+            times[url] = (duration, 1)
 
         # TODO: Return duration.
         return HttpResponse(json.dumps(info), content_type = 'application/json')
 
-    vimeo = re.match( 'http://www.vimeo.com/(.*)', url ) #39765217
+    vimeo = re.match( '.*vimeo.com/(.*)', url ) #39765217
     if vimeo:
         print 'Vimeo!!!'
-        vid_id =vimeo.groups()[0]
-        vid_info_url = 'http://vimeo.com/api/v2/video/%s.json'%vid_id
-        dat = urllib2.urlopen( vid_info_url ).read()
-        duration = json.loads(dat)[0][u'duration']
+        if times.has_key( url ):
+            info = { 'url': url, 'duration': times[url][0] }
+        else:
+            vid_id =vimeo.groups()[0]
+            vid_info_url = 'http://vimeo.com/api/v2/video/%s.json'%vid_id
+            dat = urllib2.urlopen( vid_info_url ).read()
+            duration = json.loads(dat)[0][u'duration']
 
-        info = { 'url': url, 'duration': duration }
+            info = { 'url': url, 'duration': duration }
+            times[url] = (duration, 1)
 
         # TODO: Return duration
         return HttpResponse(json.dumps(info), content_type = 'application/json')
-    
+
     if times.has_key( url ):
         info = { 'url': url, 'duration': times[url][0] }
         return HttpResponse(json.dumps(info), content_type = 'application/json')
